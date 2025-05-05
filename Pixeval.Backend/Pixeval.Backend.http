@@ -1,0 +1,45 @@
+@Pixeval.Backend_HostAddress = https://localhost:7259
+
+### 收藏列表
+
+GET {{Pixeval.Backend_HostAddress}}/favorite/list?userId=104757871
+
+### 收藏
+
+POST {{Pixeval.Backend_HostAddress}}/favorite?userId=104757871&illustrationId=118098663&favorite=true
+
+### 取消收藏
+
+POST {{Pixeval.Backend_HostAddress}}/favorite?userId=104757871&illustrationId=118098663&favorite=false
+
+### 错误：收藏请求
+
+POST {{Pixeval.Backend_HostAddress}}/favorite?userId=104757871&illustrationId=0&favorite=false
+
+### 关注列表
+
+GET {{Pixeval.Backend_HostAddress}}/follow/list?userId=104757871
+
+### 关注
+
+POST {{Pixeval.Backend_HostAddress}}/follow?userId=104757871&followedUserId=502358&follow=true
+
+### 取消关注
+
+POST {{Pixeval.Backend_HostAddress}}/follow?userId=104757871&followedUserId=502358&follow=false
+
+### 推荐作品
+
+GET {{Pixeval.Backend_HostAddress}}/recommendation/illustrations?userId=104757871
+
+### 推荐用户
+
+GET {{Pixeval.Backend_HostAddress}}/recommendation/users?userId=104757871
+
+### 排行
+
+GET {{Pixeval.Backend_HostAddress}}/ranking?userId=104757871
+
+### 关注新作
+
+GET {{Pixeval.Backend_HostAddress}}/newworks?userId=104757871
