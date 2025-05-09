@@ -16,7 +16,7 @@ public static partial class TempService
             await using (var fileStream = StaticContext.OpenAsyncReadContext("record.json"))
                 list = (await JsonSerializer.DeserializeAsync<IReadOnlyList<Illustration>>(fileStream))!;
 
-            var me = JsonSerializer.Deserialize<User>(Me)!;
+            var me = JsonSerializer.Deserialize<UserEntity>(Me)!;
             _ = await pixevalDbContext.Users.AddAsync(me);
 
             var i = 0;

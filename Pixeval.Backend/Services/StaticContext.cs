@@ -42,7 +42,7 @@ public static class StaticContext
         return new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, bufferSize, true);
     }
 
-    public static async Task<IEnumerable<User>> SetFollowedAsync(this IEnumerable<User> users, DbSet<FollowItem> followItems, long myId)
+    public static async Task<IQueryable<UserEntity>> SetFollowedAsync(this IQueryable<UserEntity> users, DbSet<FollowItem> followItems, long myId)
     {
         foreach (var user in users) 
             user.IsFollowed = await followItems.FindAsync(myId, user.Id) is not null;
@@ -55,7 +55,7 @@ public static class StaticContext
         return queryable;
     }
 
-    public static async Task<IEnumerable<Illustration>> SetFavoriteAsync(this IQueryable<Illustration> illustrations, DbSet<FavoriteItem> favoriteItems, long myId)
+    public static async Task<IQueryable<Illustration>> SetFavoriteAsync(this IQueryable<Illustration> illustrations, DbSet<FavoriteItem> favoriteItems, long myId)
     {
         foreach (var illustration in illustrations) 
             illustration.IsFavorite = await favoriteItems.FindAsync(myId, illustration.Id) is not null;

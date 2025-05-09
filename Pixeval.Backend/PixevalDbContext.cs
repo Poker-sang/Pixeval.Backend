@@ -7,7 +7,7 @@ public class PixevalDbContext(DbContextOptions<PixevalDbContext> ctx) : DbContex
 {
     public DbSet<Illustration> Illustrations { get; set; }
     
-    public DbSet<User> Users { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
     
     public DbSet<FavoriteItem> FavoriteList { get; set; }
     

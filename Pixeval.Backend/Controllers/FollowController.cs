@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Pixeval.Backend.Models;
 using Pixeval.Backend.Services;
 
@@ -11,10 +12,14 @@ public class FollowController(ILogger<FavoriteController> logger, PixevalDbConte
     [HttpGet("list")]
     public async Task<IEnumerable<User>> ListAsync(long userId)
     {
-        return await dbContext.FollowList
-            .Where(t => t.UserId == userId)
-            .Select(t => t.FollowedUser)
-            .SelfForEachAsync(t => t.IsFollowed = true);
+        IReadOnlyList<User> arr = await (await dbContext.FollowList.Where(t => t.UserId == userId)
+                .Include(t => t.FollowedUser)
+                .ThenInclude(t => t.Posts)
+                .Select(t => t.FollowedUser)
+                .SelfForEachAsync(t => t.IsFollowed = true))
+            .Select(t => new User(t))
+            .ToArrayAsync();
+        return arr.Reverse();
     }
 
     [HttpPost]

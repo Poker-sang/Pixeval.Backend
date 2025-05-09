@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace Pixeval.Backend.Models;
 
 [DebuggerDisplay("{Id}: {Name}")]
-public record User
+public record UserEntity
 {
     [Key]
     [JsonPropertyName("id")]
@@ -38,3 +38,19 @@ public record User
     public List<Illustration> Posts { get; set; } = [];
 }
 
+[DebuggerDisplay("{UserInfo}")]
+public class User(UserEntity entity)
+{
+    [JsonPropertyName("user")]
+    public UserEntity UserInfo => entity;
+
+    [JsonPropertyName("illusts")]
+    public IReadOnlyList<Illustration> Illustrations => entity.Posts;
+
+    [JsonPropertyName("novels")]
+    [NotMapped]
+    public IReadOnlyList<int> Novels => [];
+
+    [JsonPropertyName("is_muted")]
+    public bool IsMuted => false;
+}

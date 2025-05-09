@@ -61,7 +61,7 @@ public class RecommendationController(ILogger<RecommendationController> logger, 
             var user = illustration.Illustration.User; 
             if (await dbContext.FollowList.FindAsync(userId, user.Id) is not null)
                 continue;
-            if (userList.Add(illustration.Illustration.User))
+            if (userList.Add(new User(illustration.Illustration.User)))
                 if (userList.Count >= 100)
                     break;
         }

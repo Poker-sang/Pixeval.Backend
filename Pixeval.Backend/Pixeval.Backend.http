@@ -1,45 +1,60 @@
 @Pixeval.Backend_HostAddress = https://localhost:7259
+@UserId = userId=104757871
+@IllustrationId = illustrationId=118098663
+@FollowedUserId = followedUserId=502358
 
 ### 收藏列表
 
-GET {{Pixeval.Backend_HostAddress}}/favorite/list?userId=104757871
+GET {{Pixeval.Backend_HostAddress}}/favorite/list?{{UserId}}
 
 ### 收藏
 
-POST {{Pixeval.Backend_HostAddress}}/favorite?userId=104757871&illustrationId=118098663&favorite=true
+POST {{Pixeval.Backend_HostAddress}}/favorite?{{UserId}}&{{IllustrationId}}&favorite=true
 
 ### 取消收藏
 
-POST {{Pixeval.Backend_HostAddress}}/favorite?userId=104757871&illustrationId=118098663&favorite=false
+POST {{Pixeval.Backend_HostAddress}}/favorite?{{UserId}}&{{IllustrationId}}&favorite=false
 
 ### 错误：收藏请求
 
-POST {{Pixeval.Backend_HostAddress}}/favorite?userId=104757871&illustrationId=0&favorite=false
+POST {{Pixeval.Backend_HostAddress}}/favorite?{{UserId}}&illustrationId=0&favorite=false
 
 ### 关注列表
 
-GET {{Pixeval.Backend_HostAddress}}/follow/list?userId=104757871
+GET {{Pixeval.Backend_HostAddress}}/follow/list?{{UserId}}
 
 ### 关注
 
-POST {{Pixeval.Backend_HostAddress}}/follow?userId=104757871&followedUserId=502358&follow=true
+POST {{Pixeval.Backend_HostAddress}}/follow?{{UserId}}&{{FollowedUserId}}&follow=true
 
 ### 取消关注
 
-POST {{Pixeval.Backend_HostAddress}}/follow?userId=104757871&followedUserId=502358&follow=false
+POST {{Pixeval.Backend_HostAddress}}/follow?{{UserId}}&{{FollowedUserId}}&follow=false
 
 ### 推荐作品
 
-GET {{Pixeval.Backend_HostAddress}}/recommendation/illustrations?userId=104757871
+GET {{Pixeval.Backend_HostAddress}}/recommendation/illustrations?{{UserId}}
 
 ### 推荐用户
 
-GET {{Pixeval.Backend_HostAddress}}/recommendation/users?userId=104757871
+GET {{Pixeval.Backend_HostAddress}}/recommendation/users?{{UserId}}
 
 ### 排行
 
-GET {{Pixeval.Backend_HostAddress}}/ranking?userId=104757871
+GET {{Pixeval.Backend_HostAddress}}/ranking?{{UserId}}
 
 ### 关注新作
 
-GET {{Pixeval.Backend_HostAddress}}/newworks?userId=104757871
+GET {{Pixeval.Backend_HostAddress}}/newworks?{{UserId}}
+
+### 全部新作
+
+GET {{Pixeval.Backend_HostAddress}}/newworks/all?{{UserId}}
+
+### 获取作品
+
+GET {{Pixeval.Backend_HostAddress}}/get/illustration?{{UserId}}&{{IllustrationId}}
+
+### 获取用户
+
+GET {{Pixeval.Backend_HostAddress}}/get/user?{{UserId}}&{{FollowedUserId}}

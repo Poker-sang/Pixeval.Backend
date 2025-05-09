@@ -52,7 +52,7 @@ public class Illustration
     [JsonPropertyName("x_restrict")]
     public required XRestrict XRestrict { get; set; }
 
-    [JsonPropertyName("tags")]
+    [JsonIgnore]
     [NotMapped]
     [field: AllowNull, MaybeNull]
     public required IReadOnlyList<Tag> Tags
@@ -64,10 +64,17 @@ public class Illustration
     [JsonIgnore]
     public string TagsString { get; set; } = "";
 
-    [JsonPropertyName("tags2")]
+    [JsonPropertyName("tags")]
     [NotMapped]
     [field: AllowNull, MaybeNull]
-    public IReadOnlyList<string> Tags2 => field ??= JsonSerializer.Deserialize<TagPredPairList>(Tags2String)!.GeneralRes.Keys.ToArray();
+    public IReadOnlyList<Tag> TagsAll => field ??= JsonSerializer.Deserialize<TagPredPairList>(Tags2String)!.GeneralRes
+        .Keys.Select(t => new Tag
+        {
+            Name = t,
+            TranslatedName = null
+        })
+        .Concat(Tags)
+        .ToArray();
 
     [JsonIgnore]
     [NotMapped]
@@ -86,7 +93,7 @@ public class Illustration
 
     [NotMapped]
     [JsonPropertyName("user")]
-    public required User User
+    public required UserEntity User
     {
         get;
         set
@@ -97,7 +104,15 @@ public class Illustration
     }
 
     [JsonPropertyName("create_date")]
-    public required DateTimeOffset CreateDate { get; set; }
+    [NotMapped]
+    public required DateTimeOffset CreateDateOffset
+    {
+        get => new(CreateDate, TimeSpan.Zero);
+        set => CreateDate = value.UtcDateTime;
+    }
+
+    [JsonIgnore]
+    public DateTime CreateDate { get; set; }
 
     [JsonPropertyName("image_urls")]
     [NotMapped]

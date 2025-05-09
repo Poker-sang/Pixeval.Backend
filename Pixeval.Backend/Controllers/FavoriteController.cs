@@ -12,10 +12,12 @@ public class FavoriteController(ILogger<FavoriteController> logger, PixevalDbCon
     [HttpGet("list")]
     public async Task<IEnumerable<Illustration>> ListAsync(long userId)
     {
-        return await dbContext.FavoriteList.Where(t => t.UserId == userId)
-            .Select(t => t.Illustration)
-            .Include(t => t.User)
-            .SelfForEachAsync(t => t.IsFavorite = true);
+        IReadOnlyList<Illustration> arr = await (await dbContext.FavoriteList.Where(t => t.UserId == userId)
+                .Include(t => t.User)
+                .Select(t => t.Illustration)
+                .SelfForEachAsync(t => t.IsFavorite = true))
+            .ToArrayAsync();
+        return arr.Reverse();
     }
 
     [HttpPost]
