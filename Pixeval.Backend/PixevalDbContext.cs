@@ -12,6 +12,10 @@ public class PixevalDbContext(DbContextOptions<PixevalDbContext> ctx) : DbContex
     public DbSet<FavoriteItem> FavoriteList { get; set; }
     
     public DbSet<FollowItem> FollowList { get; set; }
+    
+    public DbSet<CommentItem> CommentList { get; set; }
+    
+    public DbSet<ChatItem> ChatList { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -44,5 +48,20 @@ public class PixevalDbContext(DbContextOptions<PixevalDbContext> ctx) : DbContex
             .HasOne(f => f.FollowedUser)
             .WithMany()
             .HasForeignKey(f => f.FollowedUserId);
+
+        modelBuilder.Entity<CommentItem>()
+            .HasOne(f => f.User)
+            .WithMany()
+            .HasForeignKey(f => f.UserId);
+
+        modelBuilder.Entity<CommentItem>()
+            .HasOne(f => f.Illustration)
+            .WithMany()
+            .HasForeignKey(f => f.IllustrationId);
+
+        modelBuilder.Entity<ChatItem>()
+            .HasOne(f => f.User)
+            .WithMany()
+            .HasForeignKey(f => f.UserId);
     }
 }

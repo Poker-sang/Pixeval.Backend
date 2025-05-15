@@ -14,6 +14,7 @@ public static partial class TempService
             if (count > 1)
                 _ = await pixevalDbContext.FollowList.AddAsync(new()
                 {
+                    DateTime = DateTime.UtcNow - TimeSpan.FromHours(Random.Shared.Next(240)),
                     FollowedUserId = user,
                     UserId = MyId,
                 });

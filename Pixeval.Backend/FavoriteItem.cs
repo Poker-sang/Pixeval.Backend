@@ -10,6 +10,8 @@ public class FavoriteItem
 
     public required long IllustrationId { get; set; }
 
+    public required DateTime DateTime { get; set; }
+
     public UserEntity User { get; set; } = null!;
 
     public Illustration Illustration { get; set; } = null!;

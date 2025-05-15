@@ -10,16 +10,15 @@ namespace Pixeval.Backend.Controllers;
 public class FollowController(ILogger<FavoriteController> logger, PixevalDbContext dbContext) : ControllerBase
 {
     [HttpGet("list")]
-    public async Task<IEnumerable<User>> ListAsync(long userId)
+    public async Task<IQueryable<User>> ListAsync(long userId)
     {
-        IReadOnlyList<User> arr = await (await dbContext.FollowList.Where(t => t.UserId == userId)
-                .Include(t => t.FollowedUser)
-                .ThenInclude(t => t.Posts)
-                .Select(t => t.FollowedUser)
-                .SelfForEachAsync(t => t.IsFollowed = true))
+        return await dbContext.FollowList.Where(t => t.UserId == userId)
+            .Include(t => t.FollowedUser)
+            .ThenInclude(t => t.Posts)
+            .OrderByDescending(t => t.DateTime)
+            .Select(t => t.FollowedUser)
             .Select(t => new User(t))
-            .ToArrayAsync();
-        return arr.Reverse();
+            .SelfForEachAsync(t => t.UserInfo.IsFollowed = true);
     }
 
     [HttpPost]
@@ -33,6 +32,7 @@ public class FollowController(ILogger<FavoriteController> logger, PixevalDbConte
             if (item is null)
                 await dbContext.FollowList.AddAsync(new()
                 {
+                    DateTime = DateTime.UtcNow,
                     FollowedUserId = followedUserId,
                     UserId = userId,
                 });

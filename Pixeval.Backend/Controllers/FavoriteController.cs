@@ -10,14 +10,13 @@ namespace Pixeval.Backend.Controllers;
 public class FavoriteController(ILogger<FavoriteController> logger, PixevalDbContext dbContext) : ControllerBase
 {
     [HttpGet("list")]
-    public async Task<IEnumerable<Illustration>> ListAsync(long userId)
+    public async Task<IQueryable<Illustration>> ListAsync(long userId)
     {
-        IReadOnlyList<Illustration> arr = await (await dbContext.FavoriteList.Where(t => t.UserId == userId)
-                .Include(t => t.User)
-                .Select(t => t.Illustration)
-                .SelfForEachAsync(t => t.IsFavorite = true))
-            .ToArrayAsync();
-        return arr.Reverse();
+        return await dbContext.FavoriteList.Where(t => t.UserId == userId)
+            .Include(t => t.User)
+            .OrderByDescending(t => t.DateTime)
+            .Select(t => t.Illustration)
+            .SelfForEachAsync(t => t.IsFavorite = true);
     }
 
     [HttpPost]
@@ -33,6 +32,7 @@ public class FavoriteController(ILogger<FavoriteController> logger, PixevalDbCon
             if (item is null)
                 await dbContext.FavoriteList.AddAsync(new()
                 {
+                    DateTime = DateTime.UtcNow,
                     IllustrationId = illustrationId,
                     UserId = userId,
                 });

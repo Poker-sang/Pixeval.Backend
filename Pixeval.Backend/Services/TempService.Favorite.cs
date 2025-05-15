@@ -16,6 +16,7 @@ public static partial class TempService
         foreach (var id in list)
             _ = await pixevalDbContext.FavoriteList.AddAsync(new()
             {
+                DateTime = DateTime.UtcNow - TimeSpan.FromHours(Random.Shared.Next(240)),
                 IllustrationId = id,
                 UserId = MyId,
             });

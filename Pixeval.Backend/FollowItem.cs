@@ -10,6 +10,8 @@ public class FollowItem
 
     public required long FollowedUserId { get; set; }
 
+    public required DateTime DateTime { get; set; }
+
     public UserEntity User { get; set; } = null!;
 
     public UserEntity FollowedUser { get; set; } = null!;

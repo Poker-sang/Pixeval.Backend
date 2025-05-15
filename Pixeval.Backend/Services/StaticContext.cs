@@ -5,7 +5,7 @@ namespace Pixeval.Backend.Services;
 
 public static class StaticContext
 {
-    public const string ContextDirectory = "D:/毕设";
+    public const string ContextDirectory = @"C:\Users\poker\Downloads\毕设";
 
     public static string GetContextFile(string file)
     {

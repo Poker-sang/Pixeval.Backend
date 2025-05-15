@@ -52,7 +52,8 @@ public class Illustration
     [JsonPropertyName("x_restrict")]
     public required XRestrict XRestrict { get; set; }
 
-    [JsonIgnore]
+    [JsonPropertyName("tags")]
+    // [JsonIgnore]
     [NotMapped]
     [field: AllowNull, MaybeNull]
     public required IReadOnlyList<Tag> Tags
@@ -64,7 +65,8 @@ public class Illustration
     [JsonIgnore]
     public string TagsString { get; set; } = "";
 
-    [JsonPropertyName("tags")]
+    // [JsonPropertyName("tags")]
+    [JsonIgnore]
     [NotMapped]
     [field: AllowNull, MaybeNull]
     public IReadOnlyList<Tag> TagsAll => field ??= JsonSerializer.Deserialize<TagPredPairList>(Tags2String)!.GeneralRes
