@@ -14,6 +14,8 @@ public class FavoriteController(ILogger<FavoriteController> logger, PixevalDbCon
     {
         return await dbContext.FavoriteList.Where(t => t.UserId == userId)
             .Include(t => t.User)
+            .Include(t => t.Illustration)
+            .ThenInclude(t => t.User)
             .OrderByDescending(t => t.DateTime)
             .Select(t => t.Illustration)
             .SelfForEachAsync(t => t.IsFavorite = true);
